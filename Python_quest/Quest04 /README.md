@@ -1,5 +1,5 @@
 # AIFFEL Campus Online Code Peer Review Templete
-- 코더 : 조필선 & 서승호
+- 코더 : 조필선 with 서승호
 - 리뷰어 : 김대선
 
 
