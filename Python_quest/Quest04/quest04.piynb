@@ -1,0 +1,201 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPM+w66E5UoXKU8NC4SKMKI",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/CHOPHILSUN/ChoPhilSun-All-Quest/blob/main/Python_quest/Quest04/quest04.piynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "J5fIHlZfbpQy"
+      },
+      "outputs": [],
+      "source": []
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4xTp99OnQ1kz",
+        "outputId": "a4cf4caf-4cdb-4ccc-d7aa-b3278f1defb4"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "도리 3\n",
+            "니모 5\n",
+            "첫번째 물고기 이름 : 도리 , 첫번째 물고기 속력 : 3\n",
+            "두번째 물고기 이름 : 니모 , 두번째 물고기 속력 : 5\n",
+            "Using Comprehension:\n",
+            "도리 is swimming at 3 m/s\n",
+            "도리 is swimming at 3 m/s\n",
+            "Using Generator:\n",
+            "니모 is swimming at 5 m/s\n",
+            "니모 is swimming at 5 m/s\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "\n",
+        "first_fish = list(input().split())\n",
+        "second_fish = list(input().split())\n",
+        "\n",
+        "\n",
+        "print('첫번째 물고기 이름 :',first_fish[0],',', '첫번째 물고기 속력 :',first_fish[1])\n",
+        "print('두번째 물고기 이름 :',second_fish[0],',', '두번째 물고기 속력 :',second_fish[1])\n",
+        "\n",
+        "# 컴프리헨션 함수로 물고기의 움직임 출력\n",
+        "print(\"Using Comprehension:\")\n",
+        "[print(f\"{first_fish[0]} is swimming at {first_fish[1]} m/s\") for fish in first_fish]\n",
+        "\n",
+        "# 제너레이터 함수로 물고기의 움직임 출력\n",
+        "print(\"Using Generator:\")\n",
+        "for movement in (f\"{second_fish[0]} is swimming at {second_fish[1]} m/s\" for fish in second_fish):\n",
+        "    print(movement)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "763749c0-4112-4b26-a930-b47c9f2c0930",
+        "id": "FJpwjeljev_l"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "니모 3\n",
+            "도리 5\n",
+            "첫번째 물고기 이름 : 니모 , 첫번째 물고기 속력 : 3\n",
+            "두번째 물고기 이름 : 도리 , 두번째 물고기 속력 : 5\n",
+            "Using Comprehension:\n",
+            "니모 is swimming at 3 m/s\n",
+            "니모 is swimming at 3 m/s\n",
+            "Using Generator:\n",
+            "도리 is swimming at 5 m/s\n",
+            "도리 is swimming at 5 m/s\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "\n",
+        "first_fish = list(input().split())\n",
+        "second_fish = list(input().split())\n",
+        "\n",
+        "\n",
+        "print('첫번째 물고기 이름 :',first_fish[0],',', '첫번째 물고기 속력 :',first_fish[1])\n",
+        "print('두번째 물고기 이름 :',second_fish[0],',', '두번째 물고기 속력 :',second_fish[1])\n",
+        "\n",
+        "# 컴프리헨션 함수로 물고기의 움직임 출력\n",
+        "print(\"Using Comprehension:\")\n",
+        "[print(f\"{first_fish[0]} is swimming at {first_fish[1]} m/s\") for fish in first_fish]\n",
+        "\n",
+        "# 제너레이터 함수로 물고기의 움직임 출력\n",
+        "print(\"Using Generator:\")\n",
+        "for movement in (f\"{second_fish[0]} is swimming at {second_fish[1]} m/s\" for fish in second_fish):\n",
+        "    print(movement)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 물고기 리스트 생성\n",
+        "fish_list = []\n",
+        "\n",
+        "# 물고기 정보 입력\n",
+        "fish_name = input(\"물고기의 이름을 입력하세요: \")\n",
+        "fish_speed = int(input(f\"{fish_name}의 속도를 입력하세요 (m/s, 정수로 입력): \"))\n",
+        "fish_list.append({\"이름\": fish_name, \"속도\": fish_speed})\n",
+        "\n",
+        "fish_name = input(\"또 다른 물고기의 이름을 입력하세요: \")\n",
+        "fish_speed = int(input(f\"{fish_name}의 속도를 입력하세요 (m/s, 정수로 입력): \"))\n",
+        "fish_list.append({\"이름\": fish_name, \"속도\": fish_speed})\n",
+        "\n",
+        "# 물고기 움직임 출력 함수 (컴프리헨션)\n",
+        "def show_fish_movement_comprehension(fish_list):\n",
+        "    print(\"Using Comprehension:\")\n",
+        "    for fish in fish_list:\n",
+        "        name = fish[\"이름\"]\n",
+        "        speed = fish[\"속도\"]\n",
+        "        print(f\"{name} is swimming at {speed} m/s\")\n",
+        "\n",
+        "# 물고기 움직임 출력 함수 (제너레이터)\n",
+        "def show_fish_movement_generator(fish_list):\n",
+        "    print(\"Using Generator:\")\n",
+        "    for fish in fish_list:\n",
+        "        yield f\"{fish['이름']} is swimming at {fish['속도']} m/s\"\n",
+        "\n",
+        "# 물고기 움직임 출력하기\n",
+        "show_fish_movement_comprehension(fish_list)\n",
+        "\n",
+        "print(\"\\n\")  # 공백 줄 추가\n",
+        "\n",
+        "for movement in show_fish_movement_generator(fish_list):\n",
+        "    print(movement)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "aznR1-yRd4R7",
+        "outputId": "a22f3c5d-9dc0-49c9-c42d-9fd2fafd4d6f"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "물고기의 이름을 입력하세요: 니모\n",
+            "니모의 속도를 입력하세요 (m/s, 정수로 입력): 3\n",
+            "또 다른 물고기의 이름을 입력하세요: 도리\n",
+            "도리의 속도를 입력하세요 (m/s, 정수로 입력): 5\n",
+            "Using Comprehension:\n",
+            "니모 is swimming at 3 m/s\n",
+            "도리 is swimming at 5 m/s\n",
+            "\n",
+            "\n",
+            "Using Generator:\n",
+            "니모 is swimming at 3 m/s\n",
+            "도리 is swimming at 5 m/s\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
