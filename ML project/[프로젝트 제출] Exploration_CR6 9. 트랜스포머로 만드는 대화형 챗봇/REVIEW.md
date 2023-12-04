@@ -2,7 +2,10 @@
 # AIFFEL Campus Online Code Peer Review Templete
 - 코더 : 조필선 님
 - 리뷰어 : 김대선
-
+- 
+* 처리하는 과정에 있어서 보고 배울 것이 많았습니다.
+* 특히 벡터 모양을 시각화하는 이미지표는 새롭게 다가왔습니다.
+* 다양한 테스트 예시 또한 너무 잘 봤습니다. ^^
 
 # PRT(Peer Review Template)
 - [V]  **1. 주어진 문제를 해결하는 완성된 코드가 제출되었나요?**
@@ -13,7 +16,10 @@
         - 1. 한국어 전처리를 통해 학습 데이터셋을 구축하였다.
           2. 트랜스포머 모델을 구현하여 한국어 챗봇 모델 학습을 정상적으로 진행하였다.
           3. 한국어 입력문장에 대해 한국어로 답변하는 함수를 구현하였다.
-    
+    <img width="577" alt="스크린샷 2023-12-04 오후 6 13 54" src="https://github.com/CHOPHILSUN/ChoPhilSun-All-Quest/assets/144193737/b4b52116-3f93-4338-b647-a475dfbfcada">
+    <img width="994" alt="스크린샷 2023-12-04 오후 6 17 42" src="https://github.com/CHOPHILSUN/ChoPhilSun-All-Quest/assets/144193737/5cc4daec-9718-43d5-9058-2f3684cb8dbc">
+
+
 
 - [V]  **2. 전체 코드에서 가장 핵심적이거나 가장 복잡하고 이해하기 어려운 부분에 작성된 
 주석 또는 doc string을 보고 해당 코드가 잘 이해되었나요?**
