@@ -2,68 +2,102 @@
 - 코더 : 조필선
 - 리뷰어 : 이혁희
 - [ ]  **1. 주어진 문제를 해결하는 완성된 코드가 제출되었나요?**
-    - 인물모드 사진을 성공적으로 제작하였습니다.
-    - 개의 아웃포커싱 사진 제작을 시도하였습니다.
-        - 이미지 마스크와 배경이미지 브러 처리까지 성공하였습니다.
+    - 윤곽선 검출을 이용한 멋진 이미지를 생성하였습니다.
     ```
-    img_concat = np.where(img_mask_color==255, img_orig_person, img_bg_blur)
+    from diffusers import UniPCMultistepScheduler
 
-    # 더 큰 피규어 생성
-    plt.figure(figsize=(10,8))                                        # 원하는 크기로 조절 가능하다.
+    # UniPCMultistepScheduler에 대한 스케줄러 구성
+    canny_pipe.scheduler = UniPCMultistepScheduler.from_config(canny_pipe.scheduler.config)
+    # canny_pipe를 CUDA 장치로 이동하여 GPU 가속화
+    canny_pipe = canny_pipe.to("cuda")
 
-    plt.imshow(cv2.cvtColor(img_concat, cv2.COLOR_BGR2RGB))
-    plt.show()
+    # 동일한 이미지를 생성하기 위해 시드를 지정합니다.
+    generator = torch.manual_seed(0)
+
+    # 이미지를 생성하는데 사용할 프롬프트를 작성합니다.
+    prompt = [
+        "modern artist",
+        "energetic style",
+        "computer graphics",
+        "high-quality rendering",
+        "vibrant color scheme",
+        "dynamic composition",
+        "detailed rendering"
+    ]
+
+    # 이미지를 생성합니다.
+    canny_image = canny_pipe(
+        prompt=prompt,
+        num_inference_steps=20,
+        generator=generator,
+        image=canny_image
+    ).images[0]
+
+    # 생성된 이미지를 저장합니다.
+    canny_image.save("/content/drive/MyDrive/Colab Notebooks/canny_image.png")
+
+    # 생성된 이미지를 출력합니다.
+    canny_image
     ```
+    
+    - 인체 자세 검출기를 이용한 이미지 생성
+        - CUDA out of memory 문제로 실행하지 못하였습니다.
+        
+    - 윤곽선 검출 + 인체 자세 감지
+    다음 코드에서 오류가 발생합니다. controlnets를 파이프라인으로 전달하는 코드를 빼먹어서 그런 것 같습니다.
+    그리고, scheduler정의가 두번 반복됩니다.
+    ```
+    # 리스트 controlnets를 파이프라인으로 전달합니다.
+    pipe = controlnets
+
+    controlnets = [canny_controlnet, openpose_controlnet]
+
+    for net in controlnets:
+        if hasattr(net, 'scheduler'):
+            net.scheduler = UniPCMultistepScheduler.from_config(net.scheduler.config)
+            net = net.to("cuda")
+        else:
+            print(f"{type(net).__name__} does not have a 'scheduler' attribute.")
+     
+     pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
+     pipe = pipe.to("cuda")
+    ```
+     다음과 같이 수정하면 좋을 것 같습니다.
+     ````
+      # 리스트 controlnets를 파이프라인으로 전달합니다. 
+      pipe = StableDiffusionControlNetPipeline.from_pretrained(
+            "runwayml/stable-diffusion-v1-5", controlnet=controlnets, torch_dtype=torch.float16
+      )
+      pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
+      pipe = pipe.to("cuda")
+
+     ```
+     
 - [ ]  **2. 전체 코드에서 가장 핵심적이거나 가장 복잡하고 이해하기 어려운 부분에 작성된 
 주석 또는 doc string을 보고 해당 코드가 잘 이해되었나요?**
-    - 프로젝트 서머리에서 진행 과정을 잘 기술하였습니다.
-    ```
-    먼저 이 프로젝트를 통해 세그멘테이션 기법을 적용하여 사진에서 등장 인물과 강아지를 분리하여 blur 처리르 한 후에 다시 합치는
-    등의 사진합정과정을 진행하였습니다.
-    이 프로젝트는 이미지 분할을 통해 사람과 동물을 인식하고, 이를 시각적으로 표현하는 작업을 수행했습니다.   
-    이를 위해 OpenCV와 PixelLib 라이브러리를 사용했습니다.
+    - 회고록에서 진행 과정을 잘 기술하였습니다.
+    > <조필선 회고록>
 
-    1. 이미지 로드: 먼저, 원본 이미지를 로드하고, 이 이미지의 크기를 출력했습니다.   
-    이 과정에서 OpenCV의 imread 함수를 사용했습니다.  
+    > 이미지 처리와 딥 러닝 기술을 활용하여 오픈포즈와 에지 디텍션을 사용해 사람의 자세를 감지하고 이미지를 조작했습니다.
 
-    2.이미지 분할: 그런 다음, PixelLib 라이브러리를 사용하여 이미지를 분할했습니다.   
-    이 라이브러리는 이미지에서 사람과 동물을 분리하는 데 매우 유용합니다.   
-    이 과정에서는 PixelLib의 segmentAsPascalvoc 함수를 사용했습니다.
+    > 딥 러닝 모델과 전처리기를 통합하는 과정에서 모델 로딩, 스케줄러 설정, 그리고 프롬프트를 활용하여 이미지를 생성하는 다양한 단계를 경험했습니다.
 
-    3. 분할 결과 출력: 분할된 이미지를 출력한 후, 분할된 부분을 다른 색상으로 표시하기 위해 색상 마스크를 생성했습니다.   
-    이 마스크는 원본 이미지와 합쳐져서 최종 결과를 생성합니다.  
-
-    4. 색상 마스크 생성: 분할된 부분을 다른 색상으로 표시하기 위해 색상 마스크를 생성했습니다.  
-    이 과정에서는 OpenCV의 applyColorMap 함수를 사용했습니다.
-
-    45. 이미지 합성: 마지막으로, 원본 이미지와 색상 마스크를 합쳐서 최종 결과를 생성했습니다.   
-    이 과정에서는 OpenCV의 addWeighted 함수를 사용했습니다.
-    ```
+    > 프로젝트를 진행하며 코드 수정, 패키지 설치, 그리고 이미지 저장 및 출력 등 다양한 기술적인 도전들을 겪으면서 머신 러닝과 이미지 처리에 대한 이해도를 향상시켰습니다.
+    
 - [ ]  **3. 에러가 난 부분을 디버깅하여 문제를 “해결한 기록을 남겼거나” 
 ”새로운 시도 또는 추가 실험을 수행”해봤나요?**
-    - 동물사진 아웃포커싱을 위한 과정을 진행하였습니다.
+    - 이미지 윤곽선을 이용하여 멋진 이미지를 생성하였습니다. 프롬프트를 잘 작성하였습니다.
     ```
-    # (13,13)은 blurring kernel size를 뜻합니다
-    # 다양하게 바꿔보세요
-
-    img_orig_blur = cv2.blur(img_orig_person, (25,25)) # 첫번째 인물사진
-    img_orig_blur2 = cv2.blur(img_orig_dog, (20,20)) # 첫번째 동물사진
-
-    # plt.imshow(): 저장된 데이터를 이미지의 형식으로 표시한다.
-    # cv2.cvtColor(입력 이미지, 색상 변환 코드): 입력 이미지의 색상 채널을 변경
-    # cv2.COLOR_BGR2RGB: 원본이 BGR 순서로 픽셀을 읽다보니
-    # 이미지 색상 채널을 변경해야함 (BGR 형식을 RGB 형식으로 변경)   
-
-    # 더 큰 피규어 생성
-    plt.figure(figsize=(10,8))  # 원하는 크기로 조절 가능하다.
-
-    plt.imshow(cv2.cvtColor(img_orig_blur, cv2.COLOR_BGR2RGB))
-    plt.show()
-
-    plt.imshow(cv2.cvtColor(img_orig_blur2, cv2.COLOR_BGR2RGB))
-    plt.show()
+     prompt = [
+    "modern artist",
+    "energetic style",
+    "computer graphics",
+    "high-quality rendering",
+    "vibrant color scheme",
+    "dynamic composition",
+    "detailed rendering"
+]
     ```
-
 - [ ]  **4. 회고를 잘 작성했나요?**
     - 회고에서 어려웠던 점, 배운 점을 상세히 기록하고 향후 계획까지 기록하였습니다.
 
