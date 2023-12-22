@@ -4,11 +4,9 @@
 
 ## 프로젝트 기획서 (스케치 및 서술)
 ![image](https://github.com/CHOPHILSUN/ChoPhilSun-All-Quest/assets/144193133/40ac7d2b-3367-429e-8e6a-f5cc8244727a)
-
+<br>
     
 ## APP 결과 화면
-
-
 ![image](https://github.com/CHOPHILSUN/ChoPhilSun-All-Quest/assets/144193133/79a44e79-c2a4-45ce-b0c5-5d954814cc9e))
 
 - [ ]  **2. 전체 코드에서 가장 핵심적이거나 가장 복잡하고 이해하기 어려운 부분에 작성된 
